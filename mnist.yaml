@@ -1,0 +1,22 @@
+save_dir: dense_relu_test
+
+model:
+  name: dense_mnist
+
+convert:
+  RemoveSoftmax: 1
+  OutputDir: dense-relu-test
+  XilinxPart: xc7z020clg400-1
+  Backend: VivadoAccelerator
+  IOType: io_stream
+  Interface: axi_stream
+  Driver: python
+  Board: pynq-z2
+  Precision: ap_fixed<12,7>
+  ReuseFactor: 16384
+  Trace: 0
+  Build: 1
+  FIFO_opt: 0
+  MergedRelu: 1
+  ClockPeriod: 10
+  Strategy: Resource
