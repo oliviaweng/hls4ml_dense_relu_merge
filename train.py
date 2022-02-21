@@ -74,7 +74,7 @@ def main(args):
     print('#################')
 
     tf.keras.utils.plot_model(model,
-                              to_file=f'{model_name}.png',
+                              to_file=f'{save_dir}/{model_name}.png',
                               show_shapes=True,
                               show_dtype=True,
                               show_layer_names=True,

@@ -4,8 +4,8 @@ model:
   name: dense_mnist
 
 convert:
-  RemoveSoftmax: 1
-  OutputDir: dense-relu-test
+  RemoveSoftmax: 0
+  OutputDir: dense_relu_no_merge_test
   XilinxPart: xc7z020clg400-1
   Backend: VivadoAccelerator
   IOType: io_stream
@@ -17,6 +17,17 @@ convert:
   Trace: 0
   Build: 1
   FIFO_opt: 0
-  MergedRelu: 1
+  MergedRelu: 0
   ClockPeriod: 10
   Strategy: Resource
+  Override:
+    dense:
+      Precision:
+        weight: ap_fixed<8,3>
+        bias: ap_fixed<8,3>
+        result: ap_fixed<12,7>
+        default: ap_fixed<12,7>
+    re_lu:
+      Precision:
+        default: ap_fixed<12,7>
+        result: ap_fixed<9,3,AP_RND,AP_SAT>

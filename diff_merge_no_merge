@@ -1,0 +1,456 @@
+6c6
+< * Date:           Mon Feb 21 14:37:40 2022
+---
+> * Date:           Mon Feb 21 14:41:39 2022
+32c32
+<     |    12579|    12580| 0.126 ms | 0.126 ms |  12580|  12581| dataflow |
+---
+>     |    12578|    12579| 0.126 ms | 0.126 ms |  12579|  12580| dataflow |
+37,43c37,44
+<         +------------------------------------------------------+-----------------------------------------------------+---------+---------+-----------+-----------+-------+-------+---------+
+<         |                                                      |                                                     |  Latency (cycles) |   Latency (absolute)  |    Interval   | Pipeline|
+<         |                       Instance                       |                        Module                       |   min   |   max   |    min    |    max    |  min  |  max  |   Type  |
+<         +------------------------------------------------------+-----------------------------------------------------+---------+---------+-----------+-----------+-------+-------+---------+
+<         |dense_array_array_ap_fixed_9_3_0_0_0_128u_config5_U0  |dense_array_array_ap_fixed_9_3_0_0_0_128u_config5_s  |    12579|    12580|  0.126 ms |  0.126 ms |  12579|  12580|   none  |
+<         |dense_array_array_ap_fixed_12_7_5_3_0_10u_config6_U0  |dense_array_array_ap_fixed_12_7_5_3_0_10u_config6_s  |     1283|     1284| 12.830 us | 12.840 us |   1283|   1284|   none  |
+<         +------------------------------------------------------+-----------------------------------------------------+---------+---------+-----------+-----------+-------+-------+---------+
+---
+>         +-------------------------------------------------------+------------------------------------------------------+---------+---------+-----------+-----------+-------+-------+----------+
+>         |                                                       |                                                      |  Latency (cycles) |   Latency (absolute)  |    Interval   | Pipeline |
+>         |                        Instance                       |                        Module                        |   min   |   max   |    min    |    max    |  min  |  max  |   Type   |
+>         +-------------------------------------------------------+------------------------------------------------------+---------+---------+-----------+-----------+-------+-------+----------+
+>         |dense_array_array_ap_fixed_12_7_5_3_0_128u_config3_U0  |dense_array_array_ap_fixed_12_7_5_3_0_128u_config3_s  |    12578|    12579|  0.126 ms |  0.126 ms |  12578|  12579|   none   |
+>         |dense_array_array_ap_fixed_12_7_5_3_0_10u_config6_U0   |dense_array_array_ap_fixed_12_7_5_3_0_10u_config6_s   |     1283|     1284| 12.830 us | 12.840 us |   1283|   1284|   none   |
+>         |relu_array_array_ap_fixed_128u_ReLU_config5_U0         |relu_array_array_ap_fixed_128u_ReLU_config5_s         |        1|        1| 10.000 ns | 10.000 ns |      1|      1| function |
+>         +-------------------------------------------------------+------------------------------------------------------+---------+---------+-----------+-----------+-------+-------+----------+
+59,60c60,61
+< |FIFO             |        0|      -|     640|   2688|    -|
+< |Instance         |       68|      8|   47494|  53385|    -|
+---
+> |FIFO             |        0|      -|    1280|   5760|    -|
+> |Instance         |       68|      8|   48845|  49157|    -|
+65c66
+< |Total            |       68|      8|   48135|  56084|    0|
+---
+> |Total            |       68|      8|   50126|  54928|    0|
+69c70
+< |Utilization (%)  |       24|      3|      45|    105|    0|
+---
+> |Utilization (%)  |       24|      3|      47|    103|    0|
+74,81c75,83
+<     +------------------------------------------------------+-----------------------------------------------------+---------+-------+-------+-------+-----+
+<     |                       Instance                       |                        Module                       | BRAM_18K| DSP48E|   FF  |  LUT  | URAM|
+<     +------------------------------------------------------+-----------------------------------------------------+---------+-------+-------+-------+-----+
+<     |dense_array_array_ap_fixed_12_7_5_3_0_10u_config6_U0  |dense_array_array_ap_fixed_12_7_5_3_0_10u_config6_s  |        2|      0|   5205|   6848|    0|
+<     |dense_array_array_ap_fixed_9_3_0_0_0_128u_config5_U0  |dense_array_array_ap_fixed_9_3_0_0_0_128u_config5_s  |       66|      8|  42289|  46537|    0|
+<     +------------------------------------------------------+-----------------------------------------------------+---------+-------+-------+-------+-----+
+<     |Total                                                 |                                                     |       68|      8|  47494|  53385|    0|
+<     +------------------------------------------------------+-----------------------------------------------------+---------+-------+-------+-------+-----+
+---
+>     +-------------------------------------------------------+------------------------------------------------------+---------+-------+-------+-------+-----+
+>     |                        Instance                       |                        Module                        | BRAM_18K| DSP48E|   FF  |  LUT  | URAM|
+>     +-------------------------------------------------------+------------------------------------------------------+---------+-------+-------+-------+-----+
+>     |dense_array_array_ap_fixed_12_7_5_3_0_10u_config6_U0   |dense_array_array_ap_fixed_12_7_5_3_0_10u_config6_s   |        2|      0|   5205|   6848|    0|
+>     |dense_array_array_ap_fixed_12_7_5_3_0_128u_config3_U0  |dense_array_array_ap_fixed_12_7_5_3_0_128u_config3_s  |       66|      8|  42612|  34857|    0|
+>     |relu_array_array_ap_fixed_128u_ReLU_config5_U0         |relu_array_array_ap_fixed_128u_ReLU_config5_s         |        0|      0|   1028|   7452|    0|
+>     +-------------------------------------------------------+------------------------------------------------------+---------+-------+-------+-------+-----+
+>     |Total                                                  |                                                      |       68|      8|  48845|  49157|    0|
+>     +-------------------------------------------------------+------------------------------------------------------+---------+-------+-------+-------+-----+
+90,223c92,353
+<     +---------------------------+---------+---+----+-----+------+-----+---------+
+<     |            Name           | BRAM_18K| FF| LUT| URAM| Depth| Bits| Size:D*B|
+<     +---------------------------+---------+---+----+-----+------+-----+---------+
+<     |layer5_out_V_data_0_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_100_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_101_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_102_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_103_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_104_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_105_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_106_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_107_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_108_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_109_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_10_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_110_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_111_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_112_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_113_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_114_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_115_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_116_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_117_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_118_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_119_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_11_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_120_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_121_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_122_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_123_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_124_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_125_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_126_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_127_V_U  |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_12_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_13_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_14_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_15_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_16_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_17_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_18_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_19_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_1_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_20_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_21_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_22_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_23_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_24_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_25_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_26_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_27_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_28_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_29_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_2_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_30_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_31_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_32_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_33_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_34_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_35_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_36_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_37_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_38_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_39_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_3_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_40_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_41_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_42_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_43_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_44_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_45_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_46_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_47_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_48_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_49_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_4_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_50_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_51_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_52_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_53_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_54_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_55_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_56_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_57_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_58_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_59_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_5_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_60_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_61_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_62_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_63_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_64_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_65_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_66_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_67_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_68_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_69_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_6_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_70_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_71_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_72_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_73_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_74_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_75_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_76_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_77_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_78_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_79_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_7_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_80_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_81_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_82_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_83_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_84_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_85_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_86_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_87_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_88_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_89_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_8_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_90_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_91_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_92_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_93_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_94_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_95_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_96_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_97_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_98_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_99_V_U   |        0|  5|   0|    -|     1|    9|        9|
+<     |layer5_out_V_data_9_V_U    |        0|  5|   0|    -|     1|    9|        9|
+<     +---------------------------+---------+---+----+-----+------+-----+---------+
+<     |Total                      |        0|640|   0|    0|   128| 1152|     1152|
+<     +---------------------------+---------+---+----+-----+------+-----+---------+
+---
+>     +---------------------------+---------+----+----+-----+------+-----+---------+
+>     |            Name           | BRAM_18K| FF | LUT| URAM| Depth| Bits| Size:D*B|
+>     +---------------------------+---------+----+----+-----+------+-----+---------+
+>     |layer3_out_V_data_0_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_100_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_101_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_102_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_103_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_104_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_105_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_106_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_107_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_108_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_109_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_10_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_110_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_111_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_112_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_113_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_114_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_115_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_116_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_117_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_118_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_119_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_11_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_120_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_121_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_122_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_123_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_124_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_125_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_126_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_127_V_U  |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_12_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_13_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_14_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_15_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_16_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_17_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_18_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_19_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_1_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_20_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_21_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_22_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_23_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_24_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_25_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_26_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_27_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_28_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_29_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_2_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_30_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_31_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_32_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_33_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_34_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_35_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_36_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_37_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_38_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_39_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_3_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_40_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_41_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_42_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_43_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_44_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_45_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_46_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_47_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_48_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_49_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_4_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_50_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_51_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_52_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_53_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_54_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_55_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_56_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_57_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_58_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_59_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_5_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_60_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_61_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_62_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_63_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_64_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_65_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_66_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_67_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_68_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_69_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_6_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_70_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_71_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_72_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_73_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_74_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_75_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_76_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_77_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_78_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_79_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_7_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_80_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_81_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_82_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_83_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_84_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_85_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_86_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_87_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_88_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_89_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_8_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_90_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_91_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_92_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_93_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_94_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_95_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_96_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_97_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_98_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_99_V_U   |        0|   5|   0|    -|     1|   12|       12|
+>     |layer3_out_V_data_9_V_U    |        0|   5|   0|    -|     1|   12|       12|
+>     |layer5_out_V_data_0_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_100_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_101_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_102_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_103_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_104_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_105_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_106_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_107_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_108_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_109_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_10_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_110_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_111_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_112_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_113_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_114_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_115_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_116_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_117_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_118_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_119_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_11_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_120_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_121_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_122_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_123_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_124_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_125_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_126_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_127_V_U  |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_12_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_13_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_14_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_15_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_16_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_17_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_18_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_19_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_1_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_20_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_21_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_22_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_23_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_24_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_25_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_26_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_27_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_28_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_29_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_2_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_30_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_31_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_32_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_33_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_34_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_35_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_36_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_37_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_38_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_39_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_3_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_40_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_41_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_42_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_43_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_44_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_45_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_46_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_47_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_48_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_49_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_4_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_50_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_51_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_52_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_53_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_54_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_55_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_56_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_57_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_58_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_59_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_5_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_60_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_61_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_62_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_63_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_64_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_65_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_66_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_67_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_68_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_69_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_6_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_70_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_71_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_72_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_73_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_74_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_75_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_76_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_77_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_78_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_79_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_7_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_80_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_81_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_82_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_83_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_84_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_85_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_86_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_87_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_88_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_89_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_8_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_90_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_91_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_92_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_93_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_94_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_95_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_96_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_97_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_98_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_99_V_U   |        0|   5|   0|    -|     1|    9|        9|
+>     |layer5_out_V_data_9_V_U    |        0|   5|   0|    -|     1|    9|        9|
+>     +---------------------------+---------+----+----+-----+------+-----+---------+
+>     |Total                      |        0|1280|   0|    0|   256| 2688|     2688|
+>     +---------------------------+---------+----+----+-----+------+-----+---------+

@@ -43,3 +43,8 @@ Install the requirements:
 ```
 python3 -m pip install -r requirements.txt
 ```
+
+To upgrade a specific requirement:
+```
+python3 -m pip install --upgrade REQUIREMENT_NAME
+```

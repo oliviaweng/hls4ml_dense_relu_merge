@@ -6,30 +6,13 @@ from qkeras.qlayers import QDense, QActivation
 from qkeras.qconvolutional import QConv2D
 from qkeras.qconv2d_batchnorm import QConv2DBatchnorm 
 
-"""
-model = tf.keras.models.Sequential([
-  tf.keras.layers.Flatten(input_shape=(28, 28)),
-  tf.keras.layers.Dense(128, activation='relu'),
-  tf.keras.layers.Dense(10)
-])
-model.compile(
-    optimizer=tf.keras.optimizers.Adam(0.001),
-    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-    metrics=[tf.keras.metrics.SparseCategoricalAccuracy()],
-)
 
-model.fit(
-    ds_train,
-    epochs=6,
-    validation_data=ds_test,
-)
-
-"""
 
 def dense_mnist():
     model = tf.keras.models.Sequential([
         tf.keras.layers.Flatten(input_shape=(28, 28)),
-        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dense(128),
+        tf.keras.layers.ReLU(),
         tf.keras.layers.Dense(10)
     ])
     return model

@@ -1,3 +1,6 @@
+dense_relu_merge_test/
+dense_relu_no_merge_test/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
