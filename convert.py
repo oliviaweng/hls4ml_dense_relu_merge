@@ -24,7 +24,7 @@ from qkeras.utils import _add_supported_quantized_objects
 # edit depending on where Vivado is installed:
 # os.environ['PATH'] = '/<Xilinx installation directory>/Vivado/<version>/bin:' + os.environ['PATH']
 # or source settings before running file
-os.environ['PATH'] = '/data/opt/Xilinx/Vivado/2020.1/bin:' + os.environ['PATH']
+os.environ['PATH'] = '/tools/Xilinx/Vivado/2020.1/bin:' + os.environ['PATH']
 
 PERF_SAMPLE = False
 
@@ -80,6 +80,9 @@ def main(args):
         y_test = y_test[_idxs]
 
     X_test = np.ascontiguousarray(X_test/256.)
+    if 'conv2d' in model_name:
+        # Add extra dim to images for conv2D so that they have shape (28, 28, 1)
+        X_test = np.expand_dims(X_test, -1)
     num_classes = 10
     y_test = tf.keras.utils.to_categorical(y_test, num_classes)
 
@@ -111,9 +114,10 @@ def main(args):
     config['SkipOptimizers'] = ['reshape_stream']
     
     if bool(our_config['convert']['MergedRelu']):
+        print("\n\n\nMerge ReLU!\n\n\n")
         config['Model']['MergedRelu'] = 1
     else:
-        config['SkipOptimizers'].append('relu_merge')
+        config['SkipOptimizers'].append('merge_relu')
 
     for name in config['LayerName'].keys():
         config['LayerName'][name]['Trace'] = bool(our_config['convert']['Trace'])
@@ -205,8 +209,8 @@ def main(args):
         else:
             hls_model.build(reset=False, csim=True, cosim=True, validation=True, synth=True, vsynth=True, export=True)
             hls4ml.report.read_vivado_report(our_config['convert']['OutputDir'])
-        if our_config['convert']['Backend'] == 'VivadoAccelerator':
-            hls4ml.templates.VivadoAcceleratorBackend.make_bitfile(hls_model)
+        # if our_config['convert']['Backend'] == 'VivadoAccelerator':
+        #     hls4ml.templates.VivadoAcceleratorBackend.make_bitfile(hls_model)
 
 
 if __name__ == "__main__":

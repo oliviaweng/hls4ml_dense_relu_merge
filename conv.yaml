@@ -1,0 +1,44 @@
+save_dir: conv_relu_test
+
+model:
+  name: conv2d_mnist
+  epochs: 15
+
+convert:
+  RemoveSoftmax: 0
+  OutputDir: conv_relu_no_merge_test
+  XilinxPart: xc7z020clg400-1
+  Backend: VivadoAccelerator
+  IOType: io_stream
+  Interface: axi_stream
+  Driver: python
+  Board: pynq-z2
+  Precision: ap_fixed<12,7>
+  ReuseFactor: 16384
+  Trace: 0
+  Build: 1
+  FIFO_opt: 0
+  MergedRelu: 0
+  ClockPeriod: 10
+  Strategy: Resource
+  Override:
+    conv2d:
+      Precision:
+        weight: ap_fixed<8,3>
+        bias: ap_fixed<8,3>
+        result: ap_fixed<12,7>
+        default: ap_fixed<12,7>
+    re_lu:
+      Precision:
+        default: ap_fixed<12,7>
+        result: ap_fixed<9,3,AP_RND,AP_SAT>
+    conv2d_1:
+      Precision:
+        weight: ap_fixed<8,3>
+        bias: ap_fixed<8,3>
+        result: ap_fixed<12,7>
+        default: ap_fixed<12,7>
+    re_lu_1:
+      Precision:
+        default: ap_fixed<12,7>
+        result: ap_fixed<9,3,AP_RND,AP_SAT>

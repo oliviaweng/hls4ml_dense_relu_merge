@@ -4,21 +4,24 @@ if os.system('nvidia-smi') == 0:
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 import tensorflow_datasets as tfds
-import glob
-import sys
 import argparse
 import yaml
-import csv
-import kerop
 
 import models
 
 
 def normalize_img(image, label):
-  """
-  Normalizes images: `uint8` -> `float32`.
-  """
-  return tf.cast(image, tf.float32) / 255., label
+    """
+    Normalizes images: `uint8` -> `float32`.
+    """
+    return tf.cast(image, tf.float32) / 255., label
+
+
+def expand_img_dim(image, label):
+    """
+    Make sure images have shape (28, 28, 1)
+    """
+    return tf.expand_dims(image, -1), label
 
 
 def main(args):
@@ -26,8 +29,11 @@ def main(args):
     	our_config = yaml.safe_load(file)
 
     save_dir = our_config['save_dir']
+    os.makedirs(save_dir, exist_ok=True)
     model_name = our_config['model']['name']
     model_file_path = os.path.join(save_dir, 'model_best.h5')
+
+    num_epochs = our_config['model']['epochs']
 
     # Prepare dataset
     (ds_train, ds_test), ds_info = tfds.load(
@@ -37,16 +43,28 @@ def main(args):
         as_supervised=True,
         with_info=True,
     )
+        
 
     ds_train = ds_train.map(
-        normalize_img, num_parallel_calls=tf.data.AUTOTUNE)
+        normalize_img, 
+        num_parallel_calls=tf.data.AUTOTUNE
+    )
+    if 'conv2d' in model_name:
+        # Make sure images have shape (28, 28, 1)
+        ds_train = ds_train.map(expand_img_dim)
+        print(ds_train)
     ds_train = ds_train.cache()
     ds_train = ds_train.shuffle(ds_info.splits['train'].num_examples)
     ds_train = ds_train.batch(128)
     ds_train = ds_train.prefetch(tf.data.AUTOTUNE)
 
     ds_test = ds_test.map(
-        normalize_img, num_parallel_calls=tf.data.AUTOTUNE)
+        normalize_img, 
+        num_parallel_calls=tf.data.AUTOTUNE
+    )
+    if 'conv2d' in model_name:
+        # Make sure images have shape (28, 28, 1)
+        ds_test = ds_test.map(expand_img_dim)
     ds_test = ds_test.batch(128)
     ds_test = ds_test.cache()
     ds_test = ds_test.prefetch(tf.data.AUTOTUNE)
@@ -88,12 +106,11 @@ def main(args):
 
     model.fit(
         ds_train,
-        epochs=6,
+        epochs=num_epochs,
         validation_data=ds_test,
         callbacks=[ModelCheckpoint(model_file_path, monitor='val_loss', verbose=True, save_best_only=True)]
 
     )
-
 
 
 

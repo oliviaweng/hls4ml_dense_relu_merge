@@ -1,11 +1,12 @@
-save_dir: dense_relu_test
+save_dir: dense_relu_merge_test
 
 model:
   name: dense_mnist
+  epochs: 6
 
 convert:
   RemoveSoftmax: 0
-  OutputDir: dense_relu_no_merge_test
+  OutputDir: dense_relu_merge_test
   XilinxPart: xc7z020clg400-1
   Backend: VivadoAccelerator
   IOType: io_stream
@@ -17,7 +18,7 @@ convert:
   Trace: 0
   Build: 1
   FIFO_opt: 0
-  MergedRelu: 0
+  MergedRelu: 1
   ClockPeriod: 10
   Strategy: Resource
   Override:

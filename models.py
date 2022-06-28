@@ -6,14 +6,14 @@ from qkeras.qlayers import QDense, QActivation
 from qkeras.qconvolutional import QConv2D
 from qkeras.qconv2d_batchnorm import QConv2DBatchnorm 
 
-
+NUM_CLASSES = 10
 
 def dense_mnist():
     model = tf.keras.models.Sequential([
         tf.keras.layers.Flatten(input_shape=(28, 28)),
         tf.keras.layers.Dense(128),
         tf.keras.layers.ReLU(),
-        tf.keras.layers.Dense(10)
+        tf.keras.layers.Dense(NUM_CLASSES)
     ])
     return model
 
@@ -30,8 +30,21 @@ def dense_mnist():
 #     x = QDense(128, kernel_quantizer=quantized_bits(8), bias_quantizer=quantized_bits(8))(x)
 
 
-# def dense_bn_mnist():
 
-# def conv2d_mnist():
-
-# def conv2dbn_mnist():
+def conv2d_mnist():
+    """
+    Taken from: https://keras.io/examples/vision/mnist_convnet/
+    """
+    model = tf.keras.Sequential([
+        tf.keras.Input(shape=(28, 28, 1)),
+        tf.keras.layers.Conv2D(32, kernel_size=(3, 3)),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        tf.keras.layers.Conv2D(64, kernel_size=(3, 3)),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dense(NUM_CLASSES)
+    ])
+    return model
