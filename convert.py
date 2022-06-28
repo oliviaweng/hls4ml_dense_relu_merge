@@ -117,7 +117,7 @@ def main(args):
         print("\n\n\nMerge ReLU!\n\n\n")
         config['Model']['MergedRelu'] = 1
     else:
-        config['SkipOptimizers'].append('merge_relu')
+        config['SkipOptimizers'].append('merge_relu') # SkipOptimizers currently doesn't work
 
     for name in config['LayerName'].keys():
         config['LayerName'][name]['Trace'] = bool(our_config['convert']['Trace'])
