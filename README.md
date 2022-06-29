@@ -1,5 +1,5 @@
 # hls4ml_dense_relu_merge
-Testing the hls4ml optimizer pass for merging the ReLU layer into the Dense layer when ReLU immediately follows Dense---a frequently encountered pattern in NNs.
+Testing the hls4ml optimizer pass for merging the ReLU layer into the Dense/Conv2D layers when ReLU immediately follows them---a frequently encountered pattern in neural networks (NNs).
 
 
 ## Setup Dev Environment
@@ -47,4 +47,31 @@ python3 -m pip install -r requirements.txt
 To upgrade a specific requirement:
 ```
 python3 -m pip install --upgrade REQUIREMENT_NAME
+```
+
+To synthesize the models, I use `Vivado HLS 2020.1`.
+
+## Train and synthesize a model
+I provide two models: 1) a fully connected NN and 2) a convolutional NN. Both are to be trained on the MNIST dataset. *Note*: Currently the `SkipOptimizers` config option doesn't work in hls4ml, so there isn't a way to directly test turning off the relu merge optimization.
+
+### Fully connected NN
+To train the fully-connected network, run
+```
+python3 train.py -c dense.yaml
+```
+
+To convert the model into an hls4ml model and Vivado HLS project, run:
+```
+python3 convert.py -c dense.yaml
+```
+
+### Convolutional NN
+To train the CNN, run
+```
+python3 train.py -c conv.yaml
+```
+
+To convert the model into an hls4ml model and Vivado HLS project, run:
+```
+python3 convert.py -c conv.yaml
 ```
