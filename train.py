@@ -1,6 +1,4 @@
 import os
-if os.system('nvidia-smi') == 0:
-    import setGPU
 import tensorflow as tf
 from tensorflow.keras.callbacks import ModelCheckpoint
 import tensorflow_datasets as tfds
@@ -71,18 +69,20 @@ def main(args):
 
 
     # quantization parameters
-    # if 'quantized' in model_name:
-    #     logit_total_bits = config["quantization"]["logit_total_bits"]
-    #     logit_int_bits = config["quantization"]["logit_int_bits"]
-    #     activation_total_bits = config["quantization"]["activation_total_bits"]
-    #     activation_int_bits = config["quantization"]["activation_int_bits"]
-    #     alpha = config["quantization"]["alpha"]
-    #     use_stochastic_rounding = config["quantization"]["use_stochastic_rounding"]
-    #     logit_quantizer = config["quantization"]["logit_quantizer"]
-    #     activation_quantizer = config["quantization"]["activation_quantizer"]
-    #     final_activation = bool(config['model']['final_activation'])
-
-    model = getattr(models, model_name)()
+    if 'quantized' in model_name:
+        logit_total_bits = our_config["quantization"]["logit_total_bits"]
+        logit_int_bits = our_config["quantization"]["logit_int_bits"]
+        activation_total_bits = our_config["quantization"]["activation_total_bits"]
+        activation_int_bits = our_config["quantization"]["activation_int_bits"]
+        model = getattr(models, model_name)(
+            logit_total_bits, 
+            logit_int_bits, 
+            activation_total_bits, 
+            activation_int_bits
+        )
+    else:
+        model = getattr(models, model_name)()
+        
     print(model)
     # print model summary
     print('#################')
