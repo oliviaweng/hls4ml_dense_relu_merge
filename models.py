@@ -81,9 +81,9 @@ def faulty_quantized_dense_mnist(
     input = Input(shape=(28, 28))
     x = QActivation("quantized_bits(8, 0)")(input) 
     x = Flatten()(input)
-    x = FQDense(128, kernel_quantizer=logit_quantizer, bias_quantizer=logit_quantizer)(x)
+    x = FQDense(128, ber=1.0, kernel_quantizer=logit_quantizer, bias_quantizer=logit_quantizer)(x)
     x = QActivation(activation_quantizer)(x)
-    output = FQDense(NUM_CLASSES, kernel_quantizer=logit_quantizer, bias_quantizer=logit_quantizer)(x)
+    output = FQDense(NUM_CLASSES, ber=1.0, kernel_quantizer=logit_quantizer, bias_quantizer=logit_quantizer)(x)
     return Model(inputs=input, outputs=output)
 
 def conv2d_mnist():
