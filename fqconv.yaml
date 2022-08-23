@@ -1,18 +1,18 @@
-save_dir: faulty_qdense_mnist
+save_dir: qconv2d_mnist
 
 model:
-  name: faulty_quantized_dense_mnist
-  epochs: 20
+  name: faulty_quantized_conv2d_mnist
+  epochs: 15
 
 quantization:
-  logit_total_bits: 2
-  logit_int_bits: 1
-  activation_total_bits: 2
-  activation_int_bits: 1
+  logit_total_bits: 8
+  logit_int_bits: 3
+  activation_total_bits: 8
+  activation_int_bits: 3
 
 convert:
   RemoveSoftmax: 0
-  OutputDir: dense_relu_merge_test
+  OutputDir: conv_relu_merge_test
   XilinxPart: xc7z020clg400-1
   Backend: VivadoAccelerator
   IOType: io_stream
@@ -28,13 +28,23 @@ convert:
   ClockPeriod: 10
   Strategy: Resource
   Override:
-    dense:
+    conv2d:
       Precision:
         weight: ap_fixed<8,3>
         bias: ap_fixed<8,3>
         result: ap_fixed<12,7>
         default: ap_fixed<12,7>
     re_lu:
+      Precision:
+        default: ap_fixed<12,7>
+        result: ap_fixed<9,3,AP_RND,AP_SAT>
+    conv2d_1:
+      Precision:
+        weight: ap_fixed<8,3>
+        bias: ap_fixed<8,3>
+        result: ap_fixed<12,7>
+        default: ap_fixed<12,7>
+    re_lu_1:
       Precision:
         default: ap_fixed<12,7>
         result: ap_fixed<9,3,AP_RND,AP_SAT>

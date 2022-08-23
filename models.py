@@ -7,6 +7,7 @@ from qkeras.qconvolutional import QConv2D
 from qkeras.qconv2d_batchnorm import QConv2DBatchnorm 
 from qkeras.quantizers import quantized_bits, quantized_relu
 from fkeras.fdense import FQDense
+from fkeras.fconvolutional import FQConv2D
 
 NUM_CLASSES = 10
 
@@ -103,3 +104,110 @@ def conv2d_mnist():
         tf.keras.layers.Dense(NUM_CLASSES)
     ])
     return model
+
+
+def quantized_conv2d_mnist(
+    logit_total_bits, 
+    logit_int_bits, 
+    activation_total_bits, 
+    activation_int_bits, 
+    logit_quantizer="quantized_bits",
+    activation_quantizer="quantized_relu",
+    alpha=1.0, 
+    use_stochastic_rounding=True
+):
+    logit_quantizer = getattr(qkeras.quantizers, logit_quantizer)(
+        logit_total_bits, 
+        logit_int_bits, 
+        alpha=alpha, 
+        use_stochastic_rounding=use_stochastic_rounding
+    )
+    if activation_quantizer == 'binary_tanh':
+        activation_quantizer = qkeras.quantizers.binary_tanh
+    else:
+        activation_quantizer = getattr(qkeras.quantizers, activation_quantizer)(
+            activation_total_bits, 
+            activation_int_bits, 
+            use_stochastic_rounding=use_stochastic_rounding
+        )
+    input = tf.keras.Input(shape=(28, 28, 1))
+    x = QActivation("quantized_bits(8, 0)")(input)
+    x = QConv2D(
+        32, 
+        kernel_size=(3, 3), 
+        kernel_quantizer=logit_quantizer, 
+        bias_quantizer=logit_quantizer
+    )(x)
+    x = QActivation(activation_quantizer)(x)
+    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(x)
+    x = QConv2D(
+        64, 
+        kernel_size=(3, 3),
+        kernel_quantizer=logit_quantizer, 
+        bias_quantizer=logit_quantizer
+    )(x)
+    x = QActivation(activation_quantizer)(x)
+    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(x)
+    x = tf.keras.layers.Flatten()(x)
+    x = tf.keras.layers.Dropout(0.5)(x)
+    output = QDense(
+        NUM_CLASSES, 
+        kernel_quantizer=logit_quantizer, 
+        bias_quantizer=logit_quantizer
+    )(x)
+    return Model(inputs=input, outputs=output)
+
+
+def faulty_quantized_conv2d_mnist(
+    logit_total_bits, 
+    logit_int_bits, 
+    activation_total_bits, 
+    activation_int_bits, 
+    logit_quantizer="quantized_bits",
+    activation_quantizer="quantized_relu",
+    alpha=1.0, 
+    use_stochastic_rounding=True
+):
+    logit_quantizer = getattr(qkeras.quantizers, logit_quantizer)(
+        logit_total_bits, 
+        logit_int_bits, 
+        alpha=alpha, 
+        use_stochastic_rounding=use_stochastic_rounding
+    )
+    if activation_quantizer == 'binary_tanh':
+        activation_quantizer = qkeras.quantizers.binary_tanh
+    else:
+        activation_quantizer = getattr(qkeras.quantizers, activation_quantizer)(
+            activation_total_bits, 
+            activation_int_bits, 
+            use_stochastic_rounding=use_stochastic_rounding
+        )
+    input = tf.keras.Input(shape=(28, 28, 1))
+    x = QActivation("quantized_bits(8, 0)")(input)
+    x = FQConv2D(
+        32, 
+        kernel_size=(3, 3), 
+        ber=1.0,
+        kernel_quantizer=logit_quantizer, 
+        bias_quantizer=logit_quantizer
+    )(x)
+    x = QActivation(activation_quantizer)(x)
+    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(x)
+    x = FQConv2D(
+        64, 
+        kernel_size=(3, 3),
+        ber=1.0,
+        kernel_quantizer=logit_quantizer, 
+        bias_quantizer=logit_quantizer
+    )(x)
+    x = QActivation(activation_quantizer)(x)
+    x = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(x)
+    x = tf.keras.layers.Flatten()(x)
+    x = tf.keras.layers.Dropout(0.5)(x)
+    output = FQDense(
+        NUM_CLASSES, 
+        ber=1.0,
+        kernel_quantizer=logit_quantizer, 
+        bias_quantizer=logit_quantizer
+    )(x)
+    return Model(inputs=input, outputs=output)

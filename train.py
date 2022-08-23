@@ -74,6 +74,8 @@ def main(args):
         logit_int_bits = our_config["quantization"]["logit_int_bits"]
         activation_total_bits = our_config["quantization"]["activation_total_bits"]
         activation_int_bits = our_config["quantization"]["activation_int_bits"]
+        print(f"Logit total bits = {logit_total_bits}, int bits = {logit_int_bits}")
+        print(f"Activation total bits = {activation_total_bits}, int bits = {activation_int_bits}")
         model = getattr(models, model_name)(
             logit_total_bits, 
             logit_int_bits, 
@@ -104,6 +106,18 @@ def main(args):
         metrics=[tf.keras.metrics.SparseCategoricalAccuracy()],
     )
 
+    # TODO: lol to set BER probably can do something like
+    # for layer in model.layers:
+    #     if type(layer) == FQDense:
+    #         ...
+
+    # train_ber = 1.0
+    # print(f"Training with ber = {train_ber}")
+    # model.get_layer('fq_dense').set_ber(train_ber)
+    # model.get_layer('fq_dense_1').set_ber(train_ber)
+    # print(f"Layer {model.get_layer('fq_dense')} has ber = {model.get_layer('fq_dense').get_ber()}")
+    # print(f"Layer {model.get_layer('fq_dense_1')} has ber = {model.get_layer('fq_dense_1').get_ber()}")
+
     model.fit(
         ds_train,
         epochs=num_epochs,
@@ -111,6 +125,13 @@ def main(args):
         callbacks=[ModelCheckpoint(model_file_path, monitor='val_loss', verbose=True, save_best_only=True)]
 
     )
+    # eval_ber = 1.0
+    # model.get_layer('fq_dense').set_ber(eval_ber)
+    # model.get_layer('fq_dense_1').set_ber(eval_ber)
+    # print("Evaluting model with ber = 1.0")
+    # print(f"Layer {model.get_layer('fq_dense')} has ber = {model.get_layer('fq_dense').get_ber()}")
+    # print(f"Layer {model.get_layer('fq_dense_1')} has ber = {model.get_layer('fq_dense_1').get_ber()}")
+    model.evaluate(ds_test)
 
 
 
